@@ -6,7 +6,7 @@
 int main(int argc, char *argv[]) {
 	LectorConfiguracion lectorconfig;
 	lectorconfig.create(argv[1]);
-	FabricaPaquetes fabrica;
+	FabricaPaquetes *fabrica = new FabricaPaquetes();
 	lectorconfig.informar_caracteristicas_paquetes(fabrica);
 
 	std::vector<File*> lista_archivos;
@@ -52,10 +52,12 @@ int main(int argc, char *argv[]) {
 		
 	for (std::vector<File*>::iterator it = lista_archivos.begin();
 	it != lista_archivos.end(); it++) {
-		delete(*it);
+		delete *it;
 	}
 
-	fabrica.imprimir_remanentes();
+	fabrica->imprimir_remanentes();
+
+	delete fabrica;
 	
 	return 0;
 }

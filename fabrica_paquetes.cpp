@@ -7,7 +7,7 @@
 
 void FabricaPaquetes::agregar_paquete(size_t id_tipo, std::string nombre_tipo,
 size_t limite) {
- 	PaqueteProtected *proteccion;
+ 	PaqueteProtected *proteccion = new PaqueteProtected();
 	proteccion->create(nombre_tipo, limite);
 	paquetes_protegidos.insert(std::pair<size_t,PaqueteProtected*>(id_tipo, proteccion));
 }
@@ -29,4 +29,11 @@ void FabricaPaquetes::imprimir_remanentes() {
 
 bool FabricaPaquetes::tiene_tipo(size_t tipo) {
 	return paquetes_protegidos.count(tipo) > 0;
+}
+
+FabricaPaquetes::~FabricaPaquetes() {
+	for (std::map<size_t, PaqueteProtected*>::iterator it = paquetes_protegidos.begin();
+	it != paquetes_protegidos.end(); it++) {
+		delete (it->second);
+	}
 }
