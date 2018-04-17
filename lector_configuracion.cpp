@@ -1,5 +1,4 @@
 #include "lector_configuracion.h"
-
 #include <iostream>
 #include <string>
 
@@ -12,7 +11,7 @@ void LectorConfiguracion::create(char *archivo) {
 }
 
 void LectorConfiguracion::informar_caracteristicas_paquetes(FabricaPaquetes
-	&fabrica, PaquetesProtected *proteccion) {
+	&fabrica) {
 	while (true) {
 		char tipo_str[6];
 		int tipo = 0;
@@ -32,7 +31,7 @@ void LectorConfiguracion::informar_caracteristicas_paquetes(FabricaPaquetes
 		if(archivo_configuraciones.eof()) break;
 		
 		
-		fabrica.agregar_paquete(tipo, nombre, limite, proteccion);
+		fabrica.agregar_paquete(tipo, nombre, limite);
 	}
 }
 

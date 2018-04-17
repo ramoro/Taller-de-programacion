@@ -4,19 +4,19 @@
 #include <map>
 #include <string>
 #include "paquete.h"
-#include "paquetes_protected.h"
+#include "paquete_protected.h"
 
 /*Clase que simula una fabrica de paquetes o moldes para
 armar conjuntos de tornillos del mismo tipo.*/
 class FabricaPaquetes {
 	private:
-	std::map<size_t, Paquete> paquetes;
+	std::map<size_t, PaqueteProtected*> paquetes_protegidos;
 
 	public:
 	/*Agrega un paquete o molde que almacenará tornillos de tipo
 	id_tipo, con nombre nombre_tipo.*/
 	void agregar_paquete(size_t id_tipo, std::string nombre_tipo, 
-	size_t limite, PaquetesProtected *proteccion);
+	size_t limite);
 	/*Recibe una operacion, es decir, un tipo, una cierta cantidad
 	de tornillos y un ancho en milimetros y crea una caja para
 	sumarla al paquete correspondiente e ir completandolo.*/

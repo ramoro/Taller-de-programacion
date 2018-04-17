@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <fstream>
 #include "fabrica_paquetes.h"
-#include "paquetes_protected.h"
 
 /*Clase que simula un lector de archivos con configuraciones de tornillos.*/
 class LectorConfiguracion {
@@ -18,7 +17,7 @@ class LectorConfiguracion {
 
 	/*Lee el archivo que tiene como atributo y le informa sobre sus datos
 	a fabrica.*/
-	void informar_caracteristicas_paquetes(FabricaPaquetes &fabrica, PaquetesProtected *proteccion);
+	void informar_caracteristicas_paquetes(FabricaPaquetes &fabrica);
 
 	/*Destructor del objeto. Cierra el archivo que tiene como atributo.*/
 	~LectorConfiguracion();

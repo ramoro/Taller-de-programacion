@@ -26,7 +26,6 @@ size_t Paquete::calcular_mediana_y_vaciar() {
 			cont_pos++;
 		}
 		cant_tor = cajas[pos_min].get_cantidad_tornillos();
-		//proteccion->borrar_caja(cajas, pos_min);
 		cajas.erase(cajas.begin() + pos_min);
 		pos_min = 0;
 		for (; cant_tor > 0; cant_tor--) {
@@ -54,43 +53,38 @@ size_t Paquete::calcular_mediana_y_vaciar() {
 }
 
 
-void Paquete::create(std::string tipo, size_t limite, PaquetesProtected *protec){
+void Paquete::create(std::string tipo, size_t limite){
 	nombre_tipo = tipo; 
 	limite_tornillos = limite; 
-	espacio_restante = limite; 
-	proteccion = protec;
+	espacio_restante = limite;
 }
 
 bool Paquete::alcanzo_limite() {
-	return proteccion->alcanzo_limite(espacio_restante); //mutexeado
+	return espacio_restante == 0; 
 }
 
 /*pre: paquete llego al limite.*/
 void Paquete::imprimir_y_vaciar() {
 	size_t mediana = calcular_mediana_y_vaciar();
 	std::cout << "Paquete listo: " << limite_tornillos << " tornillos de tipo "
-	<< nombre_tipo << " (mediana: " << mediana << ')' << std::endl;//mutexea
-	//proteccion->igualar(&espacio_restante, &limite_tornillos);
+	<< nombre_tipo << " (mediana: " << mediana << ')' << std::endl;
 	espacio_restante = limite_tornillos;
 }
 
 void Paquete::agregar_caja(CajaTornillos &caja) {
-	if (proteccion->preguntar_si_mayor(caja.get_cantidad_tornillos(), espacio_restante)) { //mutexear
-		while (caja.get_cantidad_tornillos() >= espacio_restante) { //mutexear
+	if (caja.get_cantidad_tornillos() > espacio_restante) { 
+		while (caja.get_cantidad_tornillos() >= espacio_restante) { 
 			CajaTornillos caja_aux;
-			caja_aux.create(espacio_restante, caja.get_milimetros_tornillos()); //mutexear
-			caja.reducir_cantidad(espacio_restante);
-			proteccion->incluir_caja(cajas, caja_aux, espacio_restante);	
-			//cajas.push_back(caja_aux);
+			caja_aux.create(espacio_restante, caja.get_milimetros_tornillos());
+			caja.reducir_cantidad(espacio_restante);	
+			cajas.push_back(caja_aux);
 			imprimir_y_vaciar();
 		}
-		//cajas.push_back(caja);
-		proteccion->incluir_caja(cajas, caja, espacio_restante);	
+		cajas.push_back(caja);	
 		
 		espacio_restante -= caja.get_cantidad_tornillos();
 	} else {
-		//cajas.push_back(caja);
-		proteccion->incluir_caja(cajas, caja, espacio_restante);
+		cajas.push_back(caja);
 		
 		espacio_restante -= caja.get_cantidad_tornillos();
 		if(alcanzo_limite()) {

@@ -2,14 +2,12 @@
 #include "lector_configuracion.h"
 #include <iostream>
 #include <thread>
-#include "paquetes_protected.h"
 
 int main(int argc, char *argv[]) {
 	LectorConfiguracion lectorconfig;
 	lectorconfig.create(argv[1]);
 	FabricaPaquetes fabrica;
-	PaquetesProtected *proteccion = new PaquetesProtected();
-	lectorconfig.informar_caracteristicas_paquetes(fabrica, proteccion);
+	lectorconfig.informar_caracteristicas_paquetes(fabrica);
 
 	std::vector<File*> lista_archivos;
 	std::vector<std::string> nombres_dispositivos;
@@ -56,8 +54,6 @@ int main(int argc, char *argv[]) {
 	it != lista_archivos.end(); it++) {
 		delete(*it);
 	}
-
-	delete(proteccion);
 
 	fabrica.imprimir_remanentes();
 	

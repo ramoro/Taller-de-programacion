@@ -6,27 +6,27 @@
 #include <string>
 
 void FabricaPaquetes::agregar_paquete(size_t id_tipo, std::string nombre_tipo,
-size_t limite, PaquetesProtected *proteccion) {
-	Paquete paquete;
-	paquete.create(nombre_tipo, limite, proteccion);
-	paquetes.insert(std::pair<size_t,Paquete>(id_tipo, paquete));
+size_t limite) {
+ 	PaqueteProtected *proteccion;
+	proteccion->create(nombre_tipo, limite);
+	paquetes_protegidos.insert(std::pair<size_t,PaqueteProtected*>(id_tipo, proteccion));
 }
 
 void FabricaPaquetes::aplicar_operacion(size_t id_tipo,
 size_t cantidad_tornillos, size_t ancho_tornillos) {
 	CajaTornillos caja;
 	caja.create(cantidad_tornillos, ancho_tornillos);
-	paquetes[id_tipo].agregar_caja(caja);
+	paquetes_protegidos[id_tipo]->agregar_caja(caja);
 }
 
 void FabricaPaquetes::imprimir_remanentes() {
 	std::cout << "# Informe de remanentes" << std::endl;
-	for (std::map<size_t, Paquete>::iterator it = paquetes.begin();
-	it != paquetes.end(); it++) {
-		(it->second).imprimir_remanentes();
+	for (std::map<size_t, PaqueteProtected*>::iterator it = paquetes_protegidos.begin();
+	it != paquetes_protegidos.end(); it++) {
+		(it->second)->imprimir_remanentes();
 	}
 }
 
 bool FabricaPaquetes::tiene_tipo(size_t tipo) {
-	return paquetes.count(tipo) > 0;
+	return paquetes_protegidos.count(tipo) > 0;
 }

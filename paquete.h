@@ -4,7 +4,6 @@
 #include <vector>
 #include <string>
 #include "caja_tornillos.h"
-#include "paquetes_protected.h"
 
 /*Clase que simula un paquete o molde de tornillos.*/
 class Paquete {
@@ -13,13 +12,12 @@ class Paquete {
 	std::string nombre_tipo;
 	size_t limite_tornillos;
 	size_t espacio_restante;
-	PaquetesProtected *proteccion;
 
 	public:
 	/*Crea el objeto Paquete asignandole el nombre del tipo de tornillos
 	con los que trabajara y el limite de espacio en cuanto a la cantidad de
 	tornillos.*/
-	void create(std::string str_tipo, size_t limite, PaquetesProtected *protec);
+	void create(std::string str_tipo, size_t limite);
 	/*Agrega una caja de tornillos al paquete.*/
 	void agregar_caja(CajaTornillos &caja);
 	/*Imprime los tornillos restantes que no han podido llegar a completar
